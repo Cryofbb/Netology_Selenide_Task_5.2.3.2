@@ -1,10 +1,11 @@
+package ru.netology;
+
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import lombok.Data;
-import lombok.Value;
 
 import java.util.Locale;
 
@@ -27,9 +28,10 @@ public class DataGenerator {
         private final String password;
         private final String status;
     }
-    public static class Registration{
-        private Registration(){
+    public static class Registration {
+        private Registration() {
         }
+
         public static User getUser(String status) {
             String login = loginGen();
             String password = passGen();
@@ -39,15 +41,16 @@ public class DataGenerator {
 
         public static User getRegisteredUser(String status) {
             var registeredUser = getUser(status);
-            sendRequest(registeredUser);
+             sendRequest(registeredUser);
             return registeredUser;
+        }
     }
-    public static void sendRequest(){
+    public static void sendRequest(User user){
         given()
                 .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(new User("vasya", "password", "active")) // передаём в теле объект, который будет преобразован в JSON
+                .body(new User(user.getLogin(), user.getPassword(),user.getStatus())) // передаём в теле объект, который будет преобразован в JSON
                 .when() // "когда"
-                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+                .post("/api/system/users"); // на какой путь, относительно BaseUri отправляем запрос
     }
     public static String loginGen(){
         String login = faker.pokemon().name();
