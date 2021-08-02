@@ -1,15 +1,14 @@
+package ru.netology;
+
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.netology.DataGenerator;
 
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
-import static ru.netology.DataGenerator.Registration.getRegisteredUser;
-import static ru.netology.DataGenerator.Registration.getUser;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
+import static ru.netology.DataGenerator.Registration.*;
+import static ru.netology.DataGenerator.*;
 
 
 public class LoginTest {
@@ -53,7 +52,7 @@ public class LoginTest {
     @DisplayName("Login with wrong login")
     void shouldGetErrorIfWrongLogin() {
         var user = getRegisteredUser("active");
-        $("[data-test-id= login] .input__control").setValue(DataGenerator.loginGen());
+        $("[data-test-id= login] .input__control").setValue(loginGen());
         $("[data-test-id= password] .input__control").setValue(user.getPassword());
         $("[data-test-id= action-login]").click();
         $(".notification__content").shouldBe(visible).shouldHave(Condition.exactText("Ошибка! Неверно указан логин или пароль"));
@@ -64,7 +63,7 @@ public class LoginTest {
     void shouldGetErrorIfWrongPassword() {
         var user = getRegisteredUser("active");
         $("[data-test-id= login] .input__control").setValue(user.getLogin());
-        $("[data-test-id= password] .input__control").setValue(DataGenerator.passGen());
+        $("[data-test-id= password] .input__control").setValue(passGen());
         $("[data-test-id= action-login]").click();
         $(".notification__content").shouldBe(visible).shouldHave(Condition.exactText("Ошибка! Неверно указан логин или пароль"));
     }
