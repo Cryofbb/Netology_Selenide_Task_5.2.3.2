@@ -13,6 +13,7 @@ import static ru.netology.DataGenerator.Registration.getUser;
 
 
 public class LoginTest {
+
     @BeforeEach
     public void setUpAll() {
         open("http://localhost:9999");
@@ -27,6 +28,7 @@ public class LoginTest {
         $("[data-test-id= action-login]").click();
         $("[id = root]").shouldHave(exactText("Личный кабинет"));
     }
+
     @Test
     @DisplayName("Login with not registered user")
     void shouldGetErrorIfNotRegisteredUser() {
